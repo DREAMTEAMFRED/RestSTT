@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.28307.329
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RestSTT", "RestSTT\RestSTT.csproj", "{BC4C4CA5-AC08-4201-AB0E-0338FC814DEA}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{BC4C4CA5-AC08-4201-AB0E-0338FC814DEA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BC4C4CA5-AC08-4201-AB0E-0338FC814DEA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BC4C4CA5-AC08-4201-AB0E-0338FC814DEA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BC4C4CA5-AC08-4201-AB0E-0338FC814DEA}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {631C43F5-4795-480D-949A-1AC8258451D1}
+	EndGlobalSection
+EndGlobal
