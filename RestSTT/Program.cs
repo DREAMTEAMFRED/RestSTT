@@ -3,6 +3,7 @@ using System.Net;
 using System.IO;
 using System.Collections.Generic;
 using MovieMarvel;
+using RecordAudio;
 
 namespace RestSTT
 {
@@ -17,6 +18,9 @@ namespace RestSTT
 
                 return;
             }*/
+
+            ProgramREC.Record();
+            
 
             // Note: Sign up at https://azure.microsoft.com/en-us/try/cognitive-services/ to get a subscription key.  
             // Navigate to the Speech tab and select Bing Speech API. Use the subscription key as Client secret below.
@@ -52,49 +56,54 @@ namespace RestSTT
                 request.ContentType = contentType;
                 request.Headers["Authorization"] = "Bearer " + token;
 
-                using (fs = new FileStream(@"test.wav", FileMode.Open, FileAccess.Read))
+                int trial = 0;
+                while(trial < 2)
                 {
-
-                    /*
-                     * Open a request stream and write 1024 byte chunks in the stream one at a time.
-                     */
-                    byte[] buffer = null;
-                    int bytesRead = 0;
-                    using (Stream requestStream = request.GetRequestStream())
+                    using (fs = new FileStream(@"record.wav", FileMode.Open, FileAccess.Read))
                     {
+
                         /*
-                         * Read 1024 raw bytes from the input audio file.
+                         * Open a request stream and write 1024 byte chunks in the stream one at a time.
                          */
-                        buffer = new Byte[checked((uint)Math.Min(1024, (int)fs.Length))];
-                        while ((bytesRead = fs.Read(buffer, 0, buffer.Length)) != 0)
+                        byte[] buffer = null;
+                        int bytesRead = 0;
+                        using (Stream requestStream = request.GetRequestStream())
                         {
-                            requestStream.Write(buffer, 0, bytesRead);
+                            /*
+                             * Read 1024 raw bytes from the input audio file.
+                             */
+                            buffer = new Byte[checked((uint)Math.Min(1024, (int)fs.Length))];
+                            while ((bytesRead = fs.Read(buffer, 0, buffer.Length)) != 0)
+                            {
+                                requestStream.Write(buffer, 0, bytesRead);
+                            }
+
+                            // Flush
+                            requestStream.Flush();
                         }
-
-                        // Flush
-                        requestStream.Flush();
                     }
-
-                    /*
+                    trial++;
+                }
+                
+                /*
                      * Get the response from the service.
                      */
-                    //Console.WriteLine("Response:");
-                    using (WebResponse response = request.GetResponse())
+                //Console.WriteLine("Response:");
+                using (WebResponse response = request.GetResponse())
+                {
+                    //Console.WriteLine(((HttpWebResponse)response).StatusCode);
+
+                    using (StreamReader sr = new StreamReader(response.GetResponseStream()))
                     {
-                        //Console.WriteLine(((HttpWebResponse)response).StatusCode);
+                        responseString = sr.ReadToEnd();
 
-                        using (StreamReader sr = new StreamReader(response.GetResponseStream()))
-                        {
-                            responseString = sr.ReadToEnd();
+                        JsonNinja jninja = new JsonNinja(responseString);
 
-                            JsonNinja jninja = new JsonNinja(responseString);
-
-                            text = jninja.GetDetails("\"DisplayText\"");
-                        }
-
-                        Console.WriteLine(text[0]);
-                        Console.ReadLine();
+                        text = jninja.GetDetails("\"DisplayText\"");
                     }
+
+                    Console.WriteLine(text[0]);
+                    //Console.ReadLine();
                 }
             }
             catch (Exception ex)
