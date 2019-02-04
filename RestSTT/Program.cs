@@ -103,7 +103,7 @@ namespace RestSTT
                     }
 
                     Console.WriteLine(text[0]);
-                    //Console.ReadLine();
+                    Console.ReadLine();
                 }
             }
             catch (Exception ex)

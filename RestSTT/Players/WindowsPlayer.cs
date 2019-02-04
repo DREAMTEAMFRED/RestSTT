@@ -45,9 +45,9 @@ namespace NetCoreAudio.Players
         public Task Record()
         {
             var sb = new StringBuilder();
-
+            //mciSendString("setaudio recsound bitspersample 16 channels 1 samplespersec 16000", sb, 1024 * 1024, IntPtr.Zero);
             mciSendString("open new Type waveaudio Alias recsound", sb, 0, IntPtr.Zero);
-            mciSendString("set recsound bitspersample 16 channels 1 format tag pcm samplespersec 16000", sb, 0, IntPtr.Zero);
+            mciSendString("set recsound time format ms bitspersample 16 channels 2 samplespersec 16000 bytespersec 128000 alignment 4", sb, 0, IntPtr.Zero);
             mciSendString("record recsound", sb, 0, IntPtr.Zero);
             System.Threading.Thread.Sleep(10000);
             StopRecording();
@@ -62,9 +62,11 @@ namespace NetCoreAudio.Players
 
         public Task StopRecording()
         {
+            
             string path = Directory.GetCurrentDirectory();
             string fullPath = path + "\\record.wav";
             var sb = new StringBuilder();
+            //mciSendString("setaudio recsound bitspersample 16 channels 1 samplespersec 16000", sb, 1024 * 1024, IntPtr.Zero);
             mciSendString("save recsound " + fullPath, sb, 0, IntPtr.Zero);
             mciSendString("close recsound ", sb, 0, IntPtr.Zero);
             return Task.CompletedTask;
