@@ -11,7 +11,7 @@ namespace NetCoreAudio.Players
 
 		internal const string PauseProcessCommand = "kill -STOP {0}";
 		internal const string ResumeProcessCommand = "kill -CONT {0}";
-        internal const string RecordProcessCommand = "arecord -D plughw:1,0 -d 10 -f S16_LE -r 16000 record.wav -c 1";
+        internal const string RecordProcessCommand = "arecord -D plughw:1,0 -d 14 -f S16_LE -r 16000 record.wav -c 1";
 
         protected virtual string BashToolName { get; }
 

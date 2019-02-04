@@ -4,6 +4,7 @@ using System.IO;
 using System.Collections.Generic;
 using MovieMarvel;
 using RecordAudio;
+using System.Threading;
 
 namespace RestSTT
 {
@@ -19,8 +20,10 @@ namespace RestSTT
                 return;
             }*/
 
-            ProgramREC.Record();
-            
+            ProgramREC.Record().Wait();
+            Thread.Sleep(10000);
+            ProgramREC.StopRecording().Wait();
+
 
             // Note: Sign up at https://azure.microsoft.com/en-us/try/cognitive-services/ to get a subscription key.  
             // Navigate to the Speech tab and select Bing Speech API. Use the subscription key as Client secret below.
@@ -103,13 +106,14 @@ namespace RestSTT
                     }
 
                     Console.WriteLine(text[0]);
-                    Console.ReadLine();
+                    //Console.ReadLine();
                 }
             }
             catch (Exception ex)
             {
-                Console.WriteLine(ex.ToString());
-                Console.WriteLine(ex.Message);
+                //Console.WriteLine(ex.ToString());
+                //Console.WriteLine(ex.Message);
+                Console.WriteLine("Nothing recorded...");
                 Console.ReadLine();
             }
         }
